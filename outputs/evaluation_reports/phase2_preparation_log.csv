@@ -1,0 +1,8 @@
+step,action,rows_before,rows_after,rows_removed,reason
+0,Initial load,0,33874,-33874,Raw CSV loaded
+1,Filter to real countries,33874,33356,518,Exclude EU27 aggregate from country-level analysis
+2,Tag fuel hierarchy + end-use labels,33356,33356,0,Enable structural filtering downstream
+3,Build panel-level dataset (prediction),33356,15813,17543,Drop Biogases + Other kerosene + Other end-use + TOTAL rows
+5,Build country total dataset (forecasting),454,386,68,Filter to 30 eligible countries (continuous + ≥10 years)
+6,Build country profile (clustering),31,31,0,One row per eligible country with ~10 features
+7,Build EU27 benchmark,518,7,511,Reserve for comparison only — NEVER used in training
