@@ -1,4 +1,4 @@
-# ============================================================
+#===========================================================
 # European Household Energy — Professional ML Dashboard
 # Auto light/dark mode · Material icons · Polished UI
 # Includes: Home · Data · Prediction · Forecasting · Clustering
@@ -389,6 +389,32 @@ def load_csv(path: Path):
         return pd.read_csv(path)
     return None
 
+@st.cache_data(show_spinner=False)
+def load_advanced_forecasts(path: Path):
+    """Load country forecasts exported by the Advanced Forecasting notebook."""
+    if path and path.exists():
+        df = pd.read_csv(path)
+        required = {"country", "year", "forecast_tj"}
+        if required.issubset(df.columns):
+            df["year"] = pd.to_numeric(df["year"], errors="coerce")
+            df["forecast_tj"] = pd.to_numeric(df["forecast_tj"], errors="coerce")
+            df = df.dropna(subset=["country", "year", "forecast_tj"])
+            df["year"] = df["year"].astype(int)
+            df = df[df["year"].between(2025, 2029)].copy()
+            return df.sort_values(["country", "year"])
+    return None
+
+
+def load_forecast_source():
+    # Prefer the five-year output from Advanced Forecasting; otherwise legacy Phase 4/6.
+    advanced = load_advanced_forecasts(OUTPUTS / "advanced_forecasting" / "country_forecasts_2025_2029.csv")
+    if advanced is not None and not advanced.empty:
+        return advanced, "Advanced Forecasting (2025–2029)"
+    legacy = load_csv(PRED_DIR / "forecasts_2025_2027_with_ci.csv")
+    if legacy is None:
+        legacy = load_csv(PRED_DIR / "forecasts_2025_2027.csv")
+    return legacy, "Phase 4/6 legacy forecasts"
+
 
 # ------------------------------------------------------------
 # 6. UI HELPERS
@@ -500,9 +526,7 @@ page = st.sidebar.radio("", PAGES, index=0, label_visibility="collapsed")
 if page == "🏠 Home":
     country_total = load_csv(PROCESSED / "country_total.csv") if PROCESSED else None
     panel         = load_csv(PROCESSED / "panel_level.csv") if PROCESSED else None
-    forecasts     = load_csv(PRED_DIR / "forecasts_2025_2027_with_ci.csv")
-    if forecasts is None:
-        forecasts = load_csv(PRED_DIR / "forecasts_2025_2027.csv")
+    forecasts, forecast_source = load_forecast_source()
 
     n_countries = int(country_total.country.nunique()) if country_total is not None else 0
     n_years     = int(country_total.year.nunique()) if country_total is not None else 0
@@ -805,7 +829,7 @@ elif page == "🔮 Prediction":
                 marker=dict(size=16, color=T["accent"], symbol="star",
                             line=dict(color=T["text"], width=1)),
             ))
-            fig.add_vline(x=2024.5, line_dash="dot", line_color=T["text_mute"])
+            fig.add_vline(x=float(hist.year.max()) + 0.5, line_dash="dot", line_color=T["text_mute"])
             fig.update_layout(height=400, xaxis_title="Year", yaxis_title="Energy (TJ)",
                               legend=dict(orientation="h", y=1.1))
             st.plotly_chart(styled_plotly(fig), use_container_width=True)
@@ -836,18 +860,13 @@ elif page == "🔮 Prediction":
 # PAGE — FORECASTING
 # ============================================================
 elif page == "📈 Forecasting":
-    st.header("Household Energy Forecasting (2025–2027)")
-    st.caption("3-step-ahead backtested forecasts with 80% and 95% confidence intervals.")
+    st.header("Household Energy Forecasting (2025–2029)")
+    st.caption("Advanced country forecasts for 2025–2029. Confidence intervals are displayed when available.")
 
     country_total = load_csv(PROCESSED / "country_total.csv") if PROCESSED else None
-    forecasts = load_csv(PRED_DIR / "forecasts_2025_2027_with_ci.csv")
-    if forecasts is None:
-        forecasts = load_csv(PRED_DIR / "forecasts_2025_2027.csv")
-        if forecasts is not None and "lo80_tj" not in forecasts.columns:
-            info_box(
-                "<b>Note:</b> Using Phase 4 forecasts (no CI). "
-                "Run Phase 6 notebook for confidence intervals.", kind="warn",
-            )
+    forecasts, forecast_source = load_forecast_source()
+    if forecasts is not None and "lo80_tj" not in forecasts.columns:
+        st.caption(f"Forecast source: {forecast_source} · Confidence intervals are not included in this export.")
 
     model_comp = load_csv(REPORTS / "phase6_model_comparison.csv")
     model_h = load_csv(REPORTS / "phase6_model_by_horizon.csv")
@@ -861,21 +880,21 @@ elif page == "📈 Forecasting":
         )
         st.stop()
 
-    has_ci = "lo80_tj" in forecasts.columns
+    has_ci = all(c in forecasts.columns for c in ["lo80_tj", "hi80_tj", "lo95_tj", "hi95_tj"])
 
     summary = forecasts.groupby("year").agg(total=("forecast_tj", "sum")).reset_index()
     c1, c2, c3, c4 = st.columns(4)
     with c1: kpi("Countries", int(forecasts.country.nunique()), "globe")
-    with c2: kpi("Horizon", "2025–2027", "calendar")
-    with c3: kpi("2027 total", f"{summary.total.iloc[-1]:,.0f} TJ", "bolt")
+    with c2: kpi("Horizon", f"{int(forecasts.year.min())}–{int(forecasts.year.max())}", "calendar")
+    with c3: kpi(f"{int(summary.year.iloc[-1])} total", f"{summary.total.iloc[-1]:,.0f} TJ", "bolt")
     with c4: kpi("CI available", "Yes" if has_ci else "No", "target")
 
     if model_comp is not None:
-        st.subheader("Model comparison (3-step backtest)")
+        st.subheader("Model comparison (Phase 6, if available)")
         st.dataframe(model_comp, use_container_width=True)
 
     if model_h is not None:
-        st.subheader("WAPE by horizon step")
+        st.subheader("WAPE by horizon step (Phase 6, if available)")
         st.dataframe(model_h, use_container_width=True)
 
     st.subheader("Country forecast")
@@ -884,7 +903,7 @@ elif page == "📈 Forecasting":
     hist = country_total[country_total.country == country].sort_values("year")
     fc = forecasts[forecasts.country == country].sort_values("year")
 
-    best_model_name = "—"
+    best_model_name = forecast_source
     if best_per is not None:
         row = best_per[best_per.country == country]
         if not row.empty:
@@ -916,7 +935,7 @@ elif page == "📈 Forecasting":
             name="80% CI", showlegend=True,
         ))
 
-    fig.add_vline(x=2024.5, line_dash="dot", line_color=T["text_mute"])
+    fig.add_vline(x=float(hist.year.max()) + 0.5, line_dash="dot", line_color=T["text_mute"])
     fig.update_layout(height=500, xaxis_title="Year", yaxis_title="Energy (TJ)",
                       legend=dict(orientation="h", y=1.1))
     st.plotly_chart(styled_plotly(fig), use_container_width=True)
