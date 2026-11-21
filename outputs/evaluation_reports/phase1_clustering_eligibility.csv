@@ -1,0 +1,40 @@
+country,n_years,n_positive_rows,eligible_for_clustering
+Albania,15,450,True
+Austria,15,800,True
+Belgium,9,441,False
+Bosnia and Herzegovina,11,414,True
+Bulgaria,15,639,True
+Croatia,15,700,True
+Cyprus,7,273,False
+Czechia,10,474,True
+Denmark,10,390,True
+Estonia,15,553,True
+Finland,10,468,True
+France,15,690,True
+Georgia,9,323,False
+Germany,15,759,True
+Greece,11,491,True
+Hungary,10,406,True
+Ireland,10,450,True
+Italy,10,478,True
+Kosovo*,8,222,False
+Latvia,15,654,True
+Lithuania,8,341,False
+Luxembourg,15,602,True
+Malta,10,306,True
+Moldova,8,292,False
+Montenegro,15,434,True
+Netherlands,15,610,True
+North Macedonia,15,507,True
+Norway,15,500,True
+Poland,10,460,True
+Portugal,15,662,True
+Romania,10,388,True
+Serbia,15,575,True
+Slovakia,10,458,True
+Slovenia,15,705,True
+Spain,15,696,True
+Sweden,10,345,True
+Turkiye,3,138,False
+Ukraine,5,195,False
+United Kingdom,10,392,True

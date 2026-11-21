@@ -1,0 +1,15 @@
+column,dtype,description,role
+country_code,str,ISO-2 country code,identifier
+country_iso2,str,"ISO-2 code (duplicate, 518 NaN for EU27 rows)",identifier
+country,str,Country name in English,identifier
+is_country_group,bool,True = EU27 aggregate (exclude from analysis),identifier
+end_use_code,str,End-use category code (7 categories),category
+end_use,str,End-use label,category
+fuel_code,str,"Fuel category code (14 categories, includes TOTAL)",category
+fuel,str,Fuel label,category
+period,int64,Year as integer (duplicate of year),temporal
+date,str,ISO date string → convert to datetime in Phase 2,temporal
+year,int64,Reporting year (2010–2024),temporal
+energy_tj,float64,Energy consumption in Terajoules (target),target
+flag,str,"Quality flag: e=estimated, u=low reliability, NaN=normal",metadata
+flag_meaning,str,Human-readable meaning of flag,metadata

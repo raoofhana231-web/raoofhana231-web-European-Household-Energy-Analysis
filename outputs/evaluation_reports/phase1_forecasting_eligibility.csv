@@ -1,0 +1,40 @@
+country,min_year,max_year,n_years,expected_years,is_continuous,eligible_for_forecast
+Albania,2010,2024,15,15,True,True
+Austria,2010,2024,15,15,True,True
+Belgium,2016,2024,9,9,True,False
+Bosnia and Herzegovina,2014,2024,11,11,True,True
+Bulgaria,2010,2024,15,15,True,True
+Croatia,2010,2024,15,15,True,True
+Cyprus,2018,2024,7,7,True,False
+Czechia,2015,2024,10,10,True,True
+Denmark,2015,2024,10,10,True,True
+Estonia,2010,2024,15,15,True,True
+Finland,2015,2024,10,10,True,True
+France,2010,2024,15,15,True,True
+Georgia,2016,2024,9,9,True,False
+Germany,2010,2024,15,15,True,True
+Greece,2013,2024,11,12,False,False
+Hungary,2015,2024,10,10,True,True
+Ireland,2015,2024,10,10,True,True
+Italy,2015,2024,10,10,True,True
+Kosovo*,2017,2024,8,8,True,False
+Latvia,2010,2024,15,15,True,True
+Lithuania,2017,2024,8,8,True,False
+Luxembourg,2010,2024,15,15,True,True
+Malta,2015,2024,10,10,True,True
+Moldova,2017,2024,8,8,True,False
+Montenegro,2010,2024,15,15,True,True
+Netherlands,2010,2024,15,15,True,True
+North Macedonia,2010,2024,15,15,True,True
+Norway,2010,2024,15,15,True,True
+Poland,2015,2024,10,10,True,True
+Portugal,2010,2024,15,15,True,True
+Romania,2015,2024,10,10,True,True
+Serbia,2010,2024,15,15,True,True
+Slovakia,2015,2024,10,10,True,True
+Slovenia,2010,2024,15,15,True,True
+Spain,2010,2024,15,15,True,True
+Sweden,2015,2024,10,10,True,True
+Turkiye,2022,2024,3,3,True,False
+Ukraine,2016,2020,5,5,True,False
+United Kingdom,2010,2019,10,10,True,True
