@@ -1,0 +1,31 @@
+country,best_model,best_wape
+Albania,Naive,4.353
+Austria,Naive,5.806
+Bosnia and Herzegovina,Naive,3.501
+Bulgaria,Naive,7.013
+Croatia,Ensemble,2.954
+Czechia,Naive,12.039
+Denmark,LinearTrend8,4.614
+Estonia,Naive,2.779
+Finland,MovingAverage3,3.262
+France,Naive,5.788
+Germany,Naive,3.778
+Hungary,Naive,9.768
+Ireland,Naive,12.524
+Italy,Naive,12.386
+Latvia,Naive,5.437
+Luxembourg,Naive,6.9
+Malta,LinearTrend8,2.117
+Montenegro,Naive,5.729
+Netherlands,Naive,9.037
+North Macedonia,Naive,8.421
+Norway,Naive,3.08
+Poland,Naive,6.13
+Portugal,Naive,3.279
+Romania,Naive,8.157
+Serbia,Naive,8.959
+Slovakia,Naive,13.437
+Slovenia,Ensemble,3.702
+Spain,HoltDamped,2.634
+Sweden,Naive,5.33
+United Kingdom,Naive,2.15

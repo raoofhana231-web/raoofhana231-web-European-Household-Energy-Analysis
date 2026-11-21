@@ -1,0 +1,2 @@
+selected_model,forecast_horizon,last_observed_year,holdout_years,selection_basis
+Naive,5,2024,rolling origins 2014-2023,Pooled rolling-origin WAPE; per-country override only if >=20% better

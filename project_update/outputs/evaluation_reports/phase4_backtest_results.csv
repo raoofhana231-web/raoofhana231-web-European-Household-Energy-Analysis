@@ -1,0 +1,181 @@
+country,model,wape
+Albania,DampedDrift,6.129
+Albania,Ensemble,4.821
+Albania,HoltDamped,4.689
+Albania,LinearTrend8,5.89
+Albania,MovingAverage3,4.573
+Albania,Naive,4.353
+Austria,DampedDrift,6.255
+Austria,Ensemble,5.926
+Austria,HoltDamped,6.617
+Austria,LinearTrend8,5.879
+Austria,MovingAverage3,5.327
+Austria,Naive,5.806
+Bosnia and Herzegovina,DampedDrift,10.552
+Bosnia and Herzegovina,Ensemble,7.936
+Bosnia and Herzegovina,HoltDamped,10.604
+Bosnia and Herzegovina,LinearTrend8,10.979
+Bosnia and Herzegovina,MovingAverage3,7.48
+Bosnia and Herzegovina,Naive,3.501
+Bulgaria,DampedDrift,7.458
+Bulgaria,Ensemble,7.06
+Bulgaria,HoltDamped,6.835
+Bulgaria,LinearTrend8,7.59
+Bulgaria,MovingAverage3,7.152
+Bulgaria,Naive,7.013
+Croatia,DampedDrift,3.329
+Croatia,Ensemble,2.954
+Croatia,HoltDamped,3.078
+Croatia,LinearTrend8,4.126
+Croatia,MovingAverage3,3.845
+Croatia,Naive,4.039
+Czechia,DampedDrift,13.528
+Czechia,Ensemble,13.388
+Czechia,HoltDamped,14.659
+Czechia,LinearTrend8,13.381
+Czechia,MovingAverage3,11.484
+Czechia,Naive,12.039
+Denmark,DampedDrift,6.115
+Denmark,Ensemble,4.802
+Denmark,HoltDamped,5.472
+Denmark,LinearTrend8,4.614
+Denmark,MovingAverage3,5.734
+Denmark,Naive,5.933
+Estonia,DampedDrift,4.049
+Estonia,Ensemble,4.345
+Estonia,HoltDamped,6.13
+Estonia,LinearTrend8,5.749
+Estonia,MovingAverage3,3.28
+Estonia,Naive,2.779
+Finland,DampedDrift,5.849
+Finland,Ensemble,6.231
+Finland,HoltDamped,10.165
+Finland,LinearTrend8,6.174
+Finland,MovingAverage3,3.262
+Finland,Naive,5.667
+France,DampedDrift,6.23
+France,Ensemble,5.361
+France,HoltDamped,5.004
+France,LinearTrend8,5.317
+France,MovingAverage3,6.024
+France,Naive,5.788
+Germany,DampedDrift,5.693
+Germany,Ensemble,4.88
+Germany,HoltDamped,5.325
+Germany,LinearTrend8,6.036
+Germany,MovingAverage3,3.829
+Germany,Naive,3.778
+Hungary,DampedDrift,9.737
+Hungary,Ensemble,9.694
+Hungary,HoltDamped,11.109
+Hungary,LinearTrend8,8.414
+Hungary,MovingAverage3,8.975
+Hungary,Naive,9.768
+Ireland,DampedDrift,14.603
+Ireland,Ensemble,13.761
+Ireland,HoltDamped,14.681
+Ireland,LinearTrend8,14.176
+Ireland,MovingAverage3,12.3
+Ireland,Naive,12.524
+Italy,DampedDrift,11.801
+Italy,Ensemble,11.685
+Italy,HoltDamped,11.803
+Italy,LinearTrend8,11.702
+Italy,MovingAverage3,13.299
+Italy,Naive,12.386
+Latvia,DampedDrift,7.295
+Latvia,Ensemble,6.003
+Latvia,HoltDamped,6.722
+Latvia,LinearTrend8,6.352
+Latvia,MovingAverage3,4.924
+Latvia,Naive,5.437
+Luxembourg,DampedDrift,7.505
+Luxembourg,Ensemble,7.809
+Luxembourg,HoltDamped,9.747
+Luxembourg,LinearTrend8,8.175
+Luxembourg,MovingAverage3,7.336
+Luxembourg,Naive,6.9
+Malta,DampedDrift,2.221
+Malta,Ensemble,2.118
+Malta,HoltDamped,3.755
+Malta,LinearTrend8,2.117
+Malta,MovingAverage3,10.558
+Malta,Naive,6.584
+Montenegro,DampedDrift,6.033
+Montenegro,Ensemble,5.683
+Montenegro,HoltDamped,5.85
+Montenegro,LinearTrend8,5.693
+Montenegro,MovingAverage3,5.554
+Montenegro,Naive,5.729
+Netherlands,DampedDrift,9.493
+Netherlands,Ensemble,8.474
+Netherlands,HoltDamped,8.232
+Netherlands,LinearTrend8,10.064
+Netherlands,MovingAverage3,10.188
+Netherlands,Naive,9.037
+North Macedonia,DampedDrift,9.788
+North Macedonia,Ensemble,8.899
+North Macedonia,HoltDamped,8.939
+North Macedonia,LinearTrend8,9.05
+North Macedonia,MovingAverage3,8.481
+North Macedonia,Naive,8.421
+Norway,DampedDrift,3.352
+Norway,Ensemble,3.483
+Norway,HoltDamped,4.48
+Norway,LinearTrend8,3.791
+Norway,MovingAverage3,3.235
+Norway,Naive,3.08
+Poland,DampedDrift,7.755
+Poland,Ensemble,8.243
+Poland,HoltDamped,9.639
+Poland,LinearTrend8,9.587
+Poland,MovingAverage3,6.707
+Poland,Naive,6.13
+Portugal,DampedDrift,3.446
+Portugal,Ensemble,3.715
+Portugal,HoltDamped,4.225
+Portugal,LinearTrend8,4.754
+Portugal,MovingAverage3,4.037
+Portugal,Naive,3.279
+Romania,DampedDrift,10.467
+Romania,Ensemble,11.401
+Romania,HoltDamped,16.765
+Romania,LinearTrend8,10.214
+Romania,MovingAverage3,7.101
+Romania,Naive,8.157
+Serbia,DampedDrift,11.303
+Serbia,Ensemble,10.518
+Serbia,HoltDamped,10.668
+Serbia,LinearTrend8,12.701
+Serbia,MovingAverage3,9.521
+Serbia,Naive,8.959
+Slovakia,DampedDrift,20.924
+Slovakia,Ensemble,21.178
+Slovakia,HoltDamped,29.476
+Slovakia,LinearTrend8,20.874
+Slovakia,MovingAverage3,12.753
+Slovakia,Naive,13.437
+Slovenia,DampedDrift,3.909
+Slovenia,Ensemble,3.702
+Slovenia,HoltDamped,4.277
+Slovenia,LinearTrend8,4.251
+Slovenia,MovingAverage3,5.617
+Slovenia,Naive,5.368
+Spain,DampedDrift,3.927
+Spain,Ensemble,3.12
+Spain,HoltDamped,2.634
+Spain,LinearTrend8,3.544
+Spain,MovingAverage3,3.292
+Spain,Naive,3.56
+Sweden,DampedDrift,5.334
+Sweden,Ensemble,4.806
+Sweden,HoltDamped,6.093
+Sweden,LinearTrend8,4.72
+Sweden,MovingAverage3,5.41
+Sweden,Naive,5.33
+United Kingdom,DampedDrift,5.203
+United Kingdom,Ensemble,4.878
+United Kingdom,HoltDamped,6.674
+United Kingdom,LinearTrend8,6.881
+United Kingdom,MovingAverage3,1.751
+United Kingdom,Naive,2.15

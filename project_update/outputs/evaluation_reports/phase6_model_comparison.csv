@@ -1,0 +1,7 @@
+model,WAPE_%
+Naive,5.336
+MovingAverage3,5.448
+Ensemble,5.859
+HoltDamped,6.297
+DampedDrift,6.472
+LinearTrend8,6.56

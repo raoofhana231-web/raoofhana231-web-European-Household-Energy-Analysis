@@ -1,0 +1,6 @@
+model,val,test
+Persistence (last year),11.151,6.36
+HistGB (log target),11.563,10.546
+MovingAverage3,10.997,11.65
+"Ridge (log, fixed)",16.102,13.089
+"Linear (log, fixed)",17.453,14.498
