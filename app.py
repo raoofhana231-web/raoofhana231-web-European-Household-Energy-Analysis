@@ -580,36 +580,59 @@ elif page == "🔮 Prediction":
     st.markdown("---")
     st.subheader("Configure a prediction")
 
-    countries = sorted(panel.country.dropna().unique())
-    end_uses = sorted(panel.end_use_short.dropna().unique()) if "end_use_short" in panel.columns else []
-    fuels = sorted(panel.fuel_code.dropna().unique())
+    # ---- Only offer combinations that really exist -------------------------
+    # The panel is sparse: e.g. space_cooling & lighting_appliances exist for
+    # electricity only, and ~31% of country x end-use x fuel series are all zero.
+    # Dropdowns are therefore *dependent* (country -> end-use -> fuel) so the user
+    # can never pick an impossible combination.
+    MIN_LAGS = 3                       # the model needs 3 past values
+    FUEL_NAMES = (panel.drop_duplicates("fuel_code").set_index("fuel_code")["fuel"].to_dict()
+                  if "fuel" in panel.columns else {})
 
-    with st.form("prediction_form"):
-        col1, col2 = st.columns(2)
-        with col1:
-            country = st.selectbox("Country", countries, index=0)
-            end_use = st.selectbox("End-use category", end_uses, index=0)
-        with col2:
-            fuel = st.selectbox("Fuel type", fuels, index=0)
-            year = st.slider("Target year", 2015, 2027, 2024)
-        submitted = st.form_submit_button("Generate Prediction", width="stretch")
+    def fuel_label(code):
+        name = str(FUEL_NAMES.get(code, ""))
+        name = name if len(name) <= 34 else name[:31] + "..."
+        return f"{name} ({code})" if name else code
+
+    def eu_label(code):
+        return str(code).replace("_", " ").title()
+
+    combos = (panel.groupby(["country", "end_use_short", "fuel_code"])
+                   .agg(n_years=("year", "count"), first_year=("year", "min"),
+                        total=("energy_tj", "sum"))
+                   .reset_index())
+    combos = combos[(combos.n_years >= MIN_LAGS) & (combos.total > 0)]
+
+    if combos.empty:
+        info_box("<b>No usable series found in the panel.</b>", kind="warn")
+        st.stop()
+
+    col1, col2 = st.columns(2)
+    with col1:
+        country = st.selectbox("Country", sorted(combos.country.unique()), key="pred_country")
+        eu_opts = sorted(combos[combos.country == country].end_use_short.unique())
+        end_use = st.selectbox("End-use category", eu_opts, format_func=eu_label, key="pred_end_use")
+    with col2:
+        fuel_opts = sorted(combos[(combos.country == country) &
+                                  (combos.end_use_short == end_use)].fuel_code.unique())
+        fuel = st.selectbox("Fuel type", fuel_opts, format_func=fuel_label, key="pred_fuel")
+        first_year = int(combos[(combos.country == country) & (combos.end_use_short == end_use) &
+                                (combos.fuel_code == fuel)].first_year.iloc[0])
+        min_year = first_year + MIN_LAGS          # first year with 3 observed lags
+        year = st.slider("Target year", min_year, 2027, max(min_year, 2024), key="pred_year")
+    st.caption(f"{len(combos):,} valid country x end-use x fuel series available "
+               f"(impossible or all-zero combinations are hidden).")
+
+    submitted = True                               # live: updates on every change
 
     if submitted:
         try:
             hist = panel[(panel.country == country) & (panel.end_use_short == end_use) &
                          (panel.fuel_code == fuel)].sort_values("year")
 
-            if hist.empty:
-                st.warning(f"⚠️ No exact historical data for **{country}** × **{end_use}** × **{fuel}**. Using fallback baseline...")
-                fa = panel[(panel.country == country) & (panel.fuel_code == fuel)].sort_values("year")
-                fb = panel[(panel.country == country) & (panel.end_use_short == end_use)].sort_values("year")
-                fc_ = panel[panel.country == country].sort_values("year")
-                if not fa.empty: hist = fa
-                elif not fb.empty: hist = fb
-                elif not fc_.empty: hist = fc_
-                else:
-                    st.error(f"Completely missing data for {country}.")
-                    st.stop()
+            if hist.empty or len(hist) < MIN_LAGS:
+                st.error(f"Not enough history for {country} x {end_use} x {fuel}.")
+                st.stop()
 
             hist_before = hist[hist.year < year]
 
@@ -671,10 +694,12 @@ elif page == "🔮 Prediction":
 
             st.markdown("---")
             st.subheader("Prediction result")
-            cA, cB, cC = st.columns(3)
+            baseline_val = float(hist[hist.year <= min(year - 1, last_obs_year)].iloc[-1]["energy_tj"])
+            cA, cB, cC, cD = st.columns(4)
             with cA: kpi("Predicted energy", f"{y_tj:,.0f} TJ", "bolt")
-            with cB: kpi("Model Used", bundle["name"], "cog")
-            with cC: kpi("Confidence", "Point estimate", "target")
+            with cB: kpi("Persistence baseline", f"{baseline_val:,.0f} TJ", "chart")
+            with cC: kpi("Model Used", bundle["name"], "cog")
+            with cD: kpi("Confidence", "Point estimate", "target")
 
             info_box(f"<b>{country}</b> · <b>{year}</b> · <b>{end_use}</b> · <b>{fuel}</b><br>"
                      f"Predicted household energy: "
@@ -701,6 +726,11 @@ elif page == "🔮 Prediction":
             info_box(f"Compared to last observed (<b>{last_val:,.0f} TJ</b>): "
                      f"<b style='color:{T['accent'] if delta_pct >= 0 else T['danger']};'>"
                      f"{delta_pct:+.1f}%</b>")
+            if last_val > 0 and not (0.5 <= y_tj / last_val <= 2.0):
+                info_box("<b>Treat this estimate with caution.</b> It moves more than 2x (or below 0.5x) "
+                         "away from the last observed value. On the 2023-24 test set the persistence "
+                         "baseline beat this model, and recursive multi-year predictions can drift on "
+                         "small or irregular series.", kind="warn")
 
         except Exception as e:
             st.error(f"Prediction failed: {e}")
