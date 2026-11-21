@@ -1,2 +1,0 @@
-selected_model,forecast_horizon,last_observed_year,holdout_years,selection_basis
-Naive,5,2024,"2022, 2023, 2024",Median rolling-origin validation MAE
