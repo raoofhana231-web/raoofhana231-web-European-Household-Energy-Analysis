@@ -1,8 +1,7 @@
-
-streamlit
+streamlit>=1.50
 pandas
 numpy
-scikit-learn
+scikit-learn>=1.5
 joblib
 plotly
 matplotlib
